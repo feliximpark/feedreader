@@ -2,7 +2,7 @@
 
 ## How to start the app
 
-Just get the ressources from this github-repository by cloning the repository.
+Just get the ressources from this github-repository by cloning the repository. Than open the file index.html in your browser.
 
 ## About the project
 In this project you are given a web-based application that reads RSS feeds. The original developer of this application clearly saw the value in testing, they've already included [Jasmine](http://jasmine.github.io/) and even started writing their first test suite! Unfortunately, they decided to move on to start their own company and we're now left with an application with an incomplete test suite. That's where you come in.
