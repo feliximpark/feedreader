@@ -32,7 +32,7 @@ $(function() {
          it("urls of each feed are defined and are not empty", function(){
             for (var i=0; i<allFeeds.length; i++){
                 expect(allFeeds[i].url).toBeDefined();
-                expect(allFeeds[i].url).not.toBe(allFeeds[i].url.lenght<1);
+                expect(allFeeds[i].url.length).not.toBe(0);
             }
          });
         /* TODO: Write a test that loops through each feed
@@ -42,7 +42,7 @@ $(function() {
          it("name of each feed is defined and not empty", function(){
             for(var i = 0; i<allFeeds.length; i++){
                 expect(allFeeds[i].name).toBeDefined();
-                expect(allFeeds[i].name).not.toBe(allFeeds[i].name.length<1);
+                expect(allFeeds[i].name.length).not.toBe(0);
             }
          });
       });
@@ -57,8 +57,8 @@ $(function() {
         // var body includes the HTML-body
         var body = document.getElementsByTagName('body')[0];
         it('menu element is hidden by default', function(){
-            //checking if after a fresh reload the body-element has the class menu-hidden
-            expect(body.className).toBe("menu-hidden");
+            //checking if after a fresh reload the body-element contains the class menu-hidden
+            expect(body.classList.contains("menu-hidden")).toBe(true);
         });
          /* TODO: Write a test that ensures the menu changes
           * visibility when the menu icon is clicked. This test
@@ -67,11 +67,11 @@ $(function() {
           */
         // testing by checking the status of the body-class before and after clicking the burger-menu-symbol
         it ("menu display and hide when it´s clicked", function(){
-            var button = document.getElementsByClassName("menu-icon-link")[0];
+            var button = document.querySelector(".menu-icon-link");
             button.click();
-            expect(body.className).not.toBe("menu-hidden");
+            expect(body.classList.contains("menu-hidden")).toBe(false);
             button.click();
-            expect(body.className).toBe("menu-hidden");
+            expect(body.classList.contains("menu-hidden")).toBe(true);
         });
     });
     /* TODO: Write a new test suite named "Initial Entries" */
@@ -91,7 +91,7 @@ $(function() {
         //checking if the div.feed has a child. The child is created, when the AJAX-call delivers results and doesn´t fail.
         it ("LoadFeed is called and delivers at least one result", function(done){
             var container = document.getElementsByClassName("feed")[0];
-            expect(container.hasChildNodes()).toBe(true);
+            expect(container.innerHTML.length).toBeGreaterThan(0);
             done();
          });
     });
@@ -108,21 +108,19 @@ $(function() {
             selector = document.getElementsByClassName("feed")[0];
         // secure with the jasemine beforeEach and done-method, that the first and the second AJAX-call are finished before testing
         // nesting the second AJAX-call into the first one
-        // after each AJAX-Call, putting the urls of the first <a href> into a variable
+        // after each AJAX-Call, putting the content of the node div.feed of the first <a href> into a variable
         beforeEach(function(done){
             loadFeed(0,function(results){
-                firstUrl = selector.children[0].href;
-                console.log(firstUrl);
+                firstUrl = selector.innerHTML;
                 loadFeed(1, function(results){
-                    secondUrl = selector.children[0].href;
-                    console.log(secondUrl);
+                    secondUrl = selector.innerHTML;
+                    done();
                 });
-                done();
             });
         });
-        //testing if each AJAX-call has a different first link as a result
+        //testing if each AJAX-call has a different HTML-content in the node div.feed
         it("Content changes when new feed is loaded",function(done){
-            expect(firstUrl).not.toBe(secondUrl);
+            expect (firstUrl).not.toBe(secondUrl);
             done();
         });
     });
